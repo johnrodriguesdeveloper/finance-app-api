@@ -1,20 +1,20 @@
-export const badRequest = (body) => {
-    return {
-        statusCode: 400,
+export const badRequest = (body) => ({
+    statusCode: 400,
         body
-    }
-}
+    })
 
-export const created = (body) => {
-    return {
+export const created = (body) => ({
         statusCode: 201,
         body
-    }
-}
+    })
 
-export const serverError = (body) => {
-    return {
+
+export const serverError = (body) => ({
         statusCode: 500,
         body: body || { message: 'Internal server error' }
-    }
-}
+    })
+
+export const ok = (body) => ({
+    statusCode: 200,
+    body
+})
