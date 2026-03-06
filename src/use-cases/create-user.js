@@ -5,6 +5,13 @@ import { PostgresCreateUserRepository } from '../repositories/postgres/create-us
 export class CreateUserUseCase {
   async execute(createUserParams) {
     // TODO: verificar se o email já está em uso
+
+    const postgresGetUserByEmailRepository = new PostgresGetUserByEmailRepository()
+    const userWithProviderEmail = await postgresGetUserByEmailRepository.execute(createUserParams.email)
+    if (userWithProviderEmail) {
+      throw new Error('Email already in use')
+    }
+    
     // criptografar as senhas
     const hashedPassword = await bcrypt.hash(createUserParams.password, 10)
     // Gerar ID
