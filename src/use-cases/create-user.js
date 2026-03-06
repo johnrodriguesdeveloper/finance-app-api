@@ -6,7 +6,6 @@ import { PostgresGetUserByEmailRepository } from '../repositories/postgres/get-u
 
 export class CreateUserUseCase {
   async execute(createUserParams) {
-    // TODO: verificar se o email já está em uso
 
     const postgresGetUserByEmailRepository = new PostgresGetUserByEmailRepository()
     const userWithProviderEmail = await postgresGetUserByEmailRepository.execute(createUserParams.email)
