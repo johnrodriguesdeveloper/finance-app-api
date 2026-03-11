@@ -15,6 +15,10 @@ export const invalidIdRequiredResponse = () => {
   return badRequest({ message: 'User ID is required and must be a valid UUID' })
 }
 
+export const userNotFoundResponse = () => {
+  return badRequest({ message: 'User not found' })
+}
+
 export const checkIfPasswordIsValid = (password) => {
   return password.length < 6
 }
@@ -24,5 +28,5 @@ export const checkIfEmailIsValid = (email) => {
 }
 
 export const checkIfIdIsValid = (id) => {
-  return !validator.isUUID(id)
+  return validator.isUUID(id)
 }
