@@ -1,4 +1,4 @@
-import { serverError, ok, badRequest, notFound } from './helpers.js'
+import { serverError, ok, badRequest, notFound } from './helpers/http.js'
 import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
 import validator from 'validator'
 
