@@ -3,6 +3,10 @@ import { EmailAlreadyInUseError } from "../errors/user.js";
 import { checkIfPasswordIsValid, checkIfEmailIsValid, invalidEmailResponse, invalidPasswordResponse, badRequest, serverError, created } from "./helpers/index.js";
 
 export class CreateUserController {
+  constructor() {
+    this.createUserUseCase = CreateUserUseCase;
+  }
+  
   async execute(httpRequest) {
     try {
       const params = httpRequest.body;
@@ -23,10 +27,8 @@ export class CreateUserController {
       if (emailIsNotValid) {
         return invalidEmailResponse();
       }
-
-      const createUserUseCase = new CreateUserUseCase();
       
-      const createdUser = await createUserUseCase.execute(params);
+      const createdUser = await this.createUserUseCase.execute(params);
       
 
       return created(createdUser);

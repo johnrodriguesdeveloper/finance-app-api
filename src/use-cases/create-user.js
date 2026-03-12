@@ -5,27 +5,30 @@ import { EmailAlreadyInUseError } from '../errors/user.js';
 import { PostgresGetUserByEmailRepository } from '../repositories/postgres/get-user-by-email.js';
 
 export class CreateUserUseCase {
+  constructor() {
+    this.getUserByEmailRepository =  PostgresGetUserByEmailRepository
+    this.createUserRepository = PostgresCreateUserRepository
+  }
+  
   async execute(createUserParams) {
 
-    const postgresGetUserByEmailRepository = new PostgresGetUserByEmailRepository()
-    const userWithProviderEmail = await postgresGetUserByEmailRepository.execute(createUserParams.email)
+   
+    const userWithProviderEmail = await this.getUserByEmailRepository.execute(createUserParams.email)
     if (userWithProviderEmail) {
       throw new EmailAlreadyInUseError(createUserParams.email)
     }
 
-    // criptografar as senhas
     const hashedPassword = await bcrypt.hash(createUserParams.password, 10)
-    // Gerar ID
+
     const userId = uuidv4()
-    // inserir o usuario no banco de dados
+
     const user = {
       ...createUserParams,
       id: userId,
       password: hashedPassword
     }
-    //chamar repositorio
-    const postgresCreateUserRepository = new PostgresCreateUserRepository
-    const createdUser = await postgresCreateUserRepository.execute(user)
+
+    const createdUser = await this.createUserRepository.execute(user)
     return createdUser
   }
 }

@@ -1,9 +1,13 @@
 import { serverError, ok, badRequest } from './helpers/http.js'
-import { UpdateUserUseCase } from "../use-cases/update-user.js"
 import { EmailAlreadyInUseError } from "../errors/user.js"
 import { checkIfPasswordIsValid, checkIfEmailIsValid, invalidEmailResponse, invalidPasswordResponse, invalidIdRequiredResponse, checkIfIdIsValid } from "./helpers/user.js"
 
 export class UpdateUserController {
+
+  constructor(updateUserUseCase){
+    this.updateUserUseCase = updateUserUseCase
+  }
+  
   async execute(request) {
     try {
       const userId = request.params.userId
@@ -47,8 +51,7 @@ export class UpdateUserController {
         }
       }
 
-      const updateUserUseCase = new UpdateUserUseCase()
-      const result = await updateUserUseCase.execute(userId, updateData)
+      const result = await this.updateUserUseCase.execute(userId, updateData)
       
       return ok( result)
     } catch (error) {

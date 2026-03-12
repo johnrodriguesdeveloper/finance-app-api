@@ -1,8 +1,11 @@
-import { serverError, ok, badRequest, notFound } from './helpers/http.js'
-import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
+import { serverError, ok, badRequest } from './helpers/http.js'
 import { checkIfIdIsValid, userNotFoundResponse } from './helpers/user.js'
 
 export class GetUserByIdController {
+  constructor(getUserByIdUseCase) {
+    this.getUserByIdUseCase = getUserByIdUseCase
+  }
+
    async execute(request, reply) {
     try {
       const isIdValid = checkIfIdIsValid(request.params.userId)
@@ -10,8 +13,7 @@ export class GetUserByIdController {
         return badRequest({ message: 'Invalid user ID' })
       }
       const { userId } = request.params
-      const getUserByIdUseCase = new GetUserByIdUseCase()
-      const user = await getUserByIdUseCase.execute(userId)
+      const user = await this.getUserByIdUseCase.execute(userId)
 
       if (!user) {
         return userNotFoundResponse()
