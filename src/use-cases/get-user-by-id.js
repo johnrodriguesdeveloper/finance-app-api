@@ -1,12 +1,10 @@
-
 export class GetUserByIdUseCase {
+  constructor(getUserByIdRepository) {
+    this.getUserByIdRepository = getUserByIdRepository
+  }
 
-    constructor() {
-        this.getUserByIdRepository =  getUserByIdRepository
-    }
-    
-    async execute(userId) {
-        const user = await this.getUserByIdRepository.execute(userId)
-        return user
-    }
+  async execute(userId) {
+    const user = await this.getUserByIdRepository.execute(userId)
+    return user
+  }
 }
