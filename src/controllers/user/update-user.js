@@ -1,6 +1,6 @@
-import { serverError, ok, badRequest } from './helpers/http.js'
-import { EmailAlreadyInUseError } from "../errors/user.js"
-import { checkIfPasswordIsValid, checkIfEmailIsValid, invalidEmailResponse, invalidPasswordResponse, invalidIdRequiredResponse, checkIfIdIsValid } from "./helpers/user.js"
+import { serverError, ok, badRequest } from '../helpers/http.js'
+import { EmailAlreadyInUseError } from "../../errors/user.js"
+import { checkIfPasswordIsValid, checkIfEmailIsValid, invalidEmailResponse, invalidPasswordResponse, invalidIdRequiredResponse, checkIfIdIsValid } from "../helpers/user.js"
 
 export class UpdateUserController {
 

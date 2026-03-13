@@ -1,5 +1,5 @@
-import { serverError, ok, badRequest } from './helpers/http.js'
-import { checkIfIdIsValid, userNotFoundResponse } from './helpers/user.js'
+import { serverError, ok, badRequest } from '../helpers/http.js'
+import { checkIfIdIsValid, userNotFoundResponse } from '../helpers/user.js'
 
 export class GetUserByIdController {
   constructor(getUserByIdUseCase) {
