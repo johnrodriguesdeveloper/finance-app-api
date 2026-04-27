@@ -1,5 +1,6 @@
-import { serverError, ok, badRequest } from '../helpers/http.js'
-import { checkIfIdIsValid, userNotFoundResponse } from '../helpers/user.js'
+import { serverError, ok } from '../helpers/http.js'
+import { userNotFoundResponse } from '../helpers/user.js'
+import { checkIfIdIsValid, invalidIdResponse } from '../helpers/validation.js'
 
 export class GetUserByIdController {
   constructor(getUserByIdUseCase) {
@@ -10,7 +11,7 @@ export class GetUserByIdController {
     try {
       const isIdValid = checkIfIdIsValid(request.params.userId)
       if (!isIdValid) {
-        return badRequest({ message: 'Invalid user ID' })
+        return invalidIdResponse()
       }
       const { userId } = request.params
       const user = await this.getUserByIdUseCase.execute(userId)
