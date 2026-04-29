@@ -25,11 +25,11 @@ export class CreateTransactionController {
         'type'
       ]
 
-      const requiredFieldsValidation = validateRequiredFields(params, requiredFields)
+const { ok: requiredFieldsAreValid, field } = validateRequiredFields(params, requiredFields)
 
-      if (!requiredFieldsValidation.ok) {
-        return badRequest({ message: `The field ${requiredFieldsValidation.field} is required` })
-      }
+if (!requiredFieldsAreValid) {
+  return badRequest({ message: `The field ${field} is required` })
+}
 
       const userIdIsValid = checkIfIdIsValid(params.user_id)
 
