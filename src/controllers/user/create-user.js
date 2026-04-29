@@ -9,6 +9,7 @@ import {
   serverError,
   created,
   validateRequiredFields,
+  requiredFieldResponse,
 } from '../helpers/index.js'
 
 export class CreateUserController {
@@ -23,9 +24,9 @@ export class CreateUserController {
 
  const { ok: requiredFieldsAreValid, field } = validateRequiredFields(params, requiredFields)
 
-if (!requiredFieldsAreValid) {
-  return badRequest({ message: `The field ${field} is required` })
-}
+      if (!requiredFieldsAreValid) {
+        return requiredFieldResponse(field)
+      }
 
       const passwordLengthIsNotValid = checkIfPasswordIsValid(params.password)
       if (passwordLengthIsNotValid) {

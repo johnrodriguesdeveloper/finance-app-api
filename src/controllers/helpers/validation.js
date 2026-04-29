@@ -5,6 +5,10 @@ export const checkIfIdIsValid = (id) => {
   return validator.isUUID(id)
 }
 
+export const requiredFieldResponse = (field) => {
+  return badRequest({ message: `The field ${field} is required` })
+}
+
 export const invalidIdResponse = () => {
   return badRequest({ message: 'The provided ID is not valid' })
 }
@@ -14,6 +18,7 @@ export const checkIfIsString = (value) => {
 }
 
 export const validateRequiredFields = (params, requiredFields) => {
+
   for (const field of requiredFields) {
 
     const fieldIsMissing = !params[field]
