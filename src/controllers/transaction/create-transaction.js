@@ -4,14 +4,14 @@ import {
   checkIfIdIsValid,
   invalidIdResponse,
   serverError,
-  created,
-} from './helpers/index.js'
+  validateRequiredFields,
+  created 
+} from '../helpers/index.js'
 
 export class CreateTransactionController {
   constructor(createTransactionUseCase) {
     this.createTransactionUseCase = createTransactionUseCase
   }
-
 
   async execute(httpRequest) {
     try {
@@ -25,10 +25,10 @@ export class CreateTransactionController {
         'type'
       ]
 
-      for (const field of requiredFields) {
-        if (!params[field] || String(params[field]).trim().length === 0) {
-          return badRequest({ message: `Missing param: ${field}` })
-        }
+      const requiredFieldsValidation = validateRequiredFields(params, requiredFields)
+
+      if (!requiredFieldsValidation.ok) {
+        return badRequest({ message: `The field ${requiredFieldsValidation.field} is required` })
       }
 
       const userIdIsValid = checkIfIdIsValid(params.user_id)
@@ -37,12 +37,11 @@ export class CreateTransactionController {
         return invalidIdResponse()
       }
 
-
-      if(params.amount <= 0) {
+      if (params.amount <= 0) {
         return badRequest({ message: 'Amount must be greater than 0' })
       }
 
-      const amoutIsValid = validator.isCurrency(params.amount.toString(),{
+      const amoutIsValid = validator.isCurrency(params.amount.toString(), {
         decimal_digits: 2,
         allow_negatives: false,
         decimal_separator: '.'
@@ -52,7 +51,7 @@ export class CreateTransactionController {
         return badRequest({ message: 'Invalid amount' })
       }
 
-      const type = params.type.trim().toLowerCase()
+      const type = params.type.trim().toUpperCase() 
 
       const typeIsValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(type)
 

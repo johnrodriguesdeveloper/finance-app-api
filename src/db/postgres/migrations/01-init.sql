@@ -6,13 +6,18 @@ CREATE TABLE IF NOT EXISTS users(
   password VARCHAR(100) NOT NULL
 );
 
-CREATE TYPE transaction_type AS ENUM ('EARNING', 'EXPENSE', 'INVESTMENT');
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'transaction_type') THEN
+        CREATE TYPE transaction_type AS ENUM ('EARNING', 'EXPENSE', 'INVESTMENT');
+    END IF;
+END$$;
 
-CREATE TABLE IF NOT EXISTS transaction(
-  ID UUID PRIMARY KEY,
-  user_id UUID REFERENCES users(ID) ON DELETE CASCADE NOT NULL,
-  name VARCHAR(100) NOT NULL,
-  date DATE NOT NULL,
-  amount NUMERIC(10,2) NOT NULL,
-  type transaction_type NOT NULL
+CREATE TABLE IF NOT EXISTS transactions (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    date DATE NOT NULL,
+    amount NUMERIC(10, 2) NOT NULL,
+    type transaction_type NOT NULL
 );

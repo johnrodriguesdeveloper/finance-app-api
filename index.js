@@ -15,6 +15,7 @@ import { DeleteUserUseCase } from './src/use-cases/user/delete-user.js'
 import { PostgresDeleteUser } from './src/repositories/postgres/user/delete-user.js'
 import { GetUserByIdUseCase } from './src/use-cases/user/get-user-by-id.js'
 import { UpdateUserUseCase } from './src/use-cases/user/update-user.js'
+import { makeCreateTransactionController } from './src/controllers/factories/controllers/transaction.js'
 
 const app = express()
 
@@ -71,5 +72,13 @@ app.delete('/api/users/:userId', async (req, res) => {
 
   res.status(statusCode).json(body)
 })
+
+app.post('/api/transactions', async (req, res) => {
+  const createTransactionController = makeCreateTransactionController()
+
+  const { statusCode, body } = await createTransactionController.execute(req)
+
+  res.status(statusCode).json(body)
+})  
 
 app.listen(8080, () => console.log('listening on port 8080'))
