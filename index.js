@@ -16,6 +16,7 @@ import { PostgresDeleteUser } from './src/repositories/postgres/user/delete-user
 import { GetUserByIdUseCase } from './src/use-cases/user/get-user-by-id.js'
 import { UpdateUserUseCase } from './src/use-cases/user/update-user.js'
 import { makeCreateTransactionController } from './src/controllers/factories/controllers/transaction.js'
+import { makeGetTransactionByUserIdController } from './src/controllers/factories/controllers/transaction.js'
 
 const app = express()
 
@@ -69,6 +70,14 @@ app.delete('/api/users/:userId', async (req, res) => {
   const deleteUserController = new DeleteUserController(deleteUserUseCase)
 
   const { statusCode, body } = await deleteUserController.execute(req)
+
+  res.status(statusCode).json(body)
+})
+
+app.get('/api/transactions', async (req, res) => {
+  const getTransactionByUserIdController = makeGetTransactionByUserIdController()
+
+  const { statusCode, body } = await getTransactionByUserIdController.execute(req)
 
   res.status(statusCode).json(body)
 })
