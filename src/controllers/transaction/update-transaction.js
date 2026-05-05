@@ -1,5 +1,6 @@
 import { invalidIdResponse, serverError, badRequest, invalidAmountResponse, invalidTypeResponse, ok } from '../helpers/index.js'
-import { checkIfIdIsValid, checkIfAmountIsValid, checkIfTypeIsValid } from '../helpers/validation.js'
+import { checkIfIdIsValid } from '../helpers/validation.js'
+import { checkIfAmountIsValid, checkIfTypeIsValid } from '../helpers/transaction.js'
 
 export class UpdateTransactionController {
     constructor(updateTransactionUseCase) {
@@ -39,10 +40,10 @@ export class UpdateTransactionController {
                     return invalidTypeResponse();
                 }
 
-                const transaction = await this.updateTransactionUseCase.execute({
-                    id: httpRequest.params.transactionId,
-                    ...params
-                })
+               const transaction = await this.updateTransactionUseCase.execute(
+                    httpRequest.params.transactionId, 
+                    params                            
+                ) 
             
                 return ok(transaction)
         } catch (error) {
