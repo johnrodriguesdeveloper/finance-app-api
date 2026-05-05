@@ -18,6 +18,9 @@ import { UpdateUserUseCase } from './src/use-cases/user/update-user.js'
 import { makeCreateTransactionController } from './src/controllers/factories/controllers/transaction.js'
 import { makeGetTransactionByUserIdController } from './src/controllers/factories/controllers/transaction.js'
 import { makeUpdateTransactionController } from './src/controllers/factories/controllers/transaction.js'
+import { makeDeleteTransactionController } from './src/controllers/factories/controllers/transaction.js'
+
+
 
 const app = express()
 
@@ -95,6 +98,14 @@ app.patch('/api/transactions/:transactionId', async (req, res) => {
   const updateTransactionController = makeUpdateTransactionController()
 
   const { statusCode, body } = await updateTransactionController.execute(req)
+
+  res.status(statusCode).json(body)
+})
+
+app.delete('/api/transactions/:transactionId', async (req, res) => {
+  const deleteTransactionController = makeDeleteTransactionController()
+
+  const { statusCode, body } = await deleteTransactionController.execute(req)
 
   res.status(statusCode).json(body)
 })
