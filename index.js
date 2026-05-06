@@ -19,6 +19,9 @@ import { makeCreateTransactionController } from './src/controllers/factories/con
 import { makeGetTransactionByUserIdController } from './src/controllers/factories/controllers/transaction.js'
 import { makeUpdateTransactionController } from './src/controllers/factories/controllers/transaction.js'
 import { makeDeleteTransactionController } from './src/controllers/factories/controllers/transaction.js'
+import { makeGetUserBalanceController } from './src/controllers/factories/controllers/user.js'
+
+
 
 
 
@@ -106,6 +109,14 @@ app.delete('/api/transactions/:transactionId', async (req, res) => {
   const deleteTransactionController = makeDeleteTransactionController()
 
   const { statusCode, body } = await deleteTransactionController.execute(req)
+
+  res.status(statusCode).json(body)
+})
+
+app.get('/api/users/:userId/balance', async (req, res) => {
+  const getUserBalanceController = makeGetUserBalanceController()
+
+  const { statusCode, body } = await getUserBalanceController.execute(req)
 
   res.status(statusCode).json(body)
 })
