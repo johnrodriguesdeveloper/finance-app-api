@@ -1,7 +1,9 @@
 import { serverError, ok, badRequest } from '../helpers/http.js'
 import { EmailAlreadyInUseError } from "../../errors/user.js"
-import { checkIfPasswordIsValid, checkIfEmailIsValid, invalidEmailResponse, invalidPasswordResponse, invalidIdRequiredResponse } from "../helpers/user.js"
+import { invalidIdRequiredResponse } from "../helpers/user.js"
 import { checkIfIdIsValid } from "../helpers/validation.js"
+import { updateUserSchema } from "../../schemas/user.js"
+import { z } from "zod"
 
 export class UpdateUserController {
 
@@ -19,43 +21,18 @@ export class UpdateUserController {
         return invalidIdRequiredResponse()
       }
 
-      const updateData = request.body
+      const params = request.body
 
-      const allowedFields = [
-        'first_name',
-        'last_name',
-        'email',
-        'password'
-      ]
+      await updateUserSchema.parseAsync(params)
 
-      const someFieldIsNotAllowed = Object.keys(updateData).some(
-        (field) => !allowedFields.includes(field)
-      )
-
-      if (someFieldIsNotAllowed) {
-        return badRequest({
-          message: 'Some fields are not allowed'
-        })
-      }
-
-      if (updateData.password) {
-        const passwordLengthNotIsValid = checkIfPasswordIsValid(updateData.password)
-        if (passwordLengthNotIsValid) {
-          return invalidPasswordResponse()
-        }
-      }
-
-      if (updateData.email) {
-        const emailIsNotValid = checkIfEmailIsValid(updateData.email)
-        if (emailIsNotValid) {
-          return invalidEmailResponse()
-        }
-      }
-
-      const result = await this.updateUserUseCase.execute(userId, updateData)
+      const result = await this.updateUserUseCase.execute(userId, params)
       
       return ok( result)
     } catch (error) {
+
+      if (error instanceof z.ZodError) {
+        return badRequest({ message: error.issues[0].message })
+      }
 
       if(error instanceof EmailAlreadyInUseError) {
         return badRequest({ message: error.message })

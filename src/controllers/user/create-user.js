@@ -1,16 +1,12 @@
 import { EmailAlreadyInUseError } from '../../errors/user.js'
-
+import { createUserSchema } from '../../schemas/user.js'
 import {
-  checkIfPasswordIsValid,
-  checkIfEmailIsValid,
-  invalidEmailResponse,
-  invalidPasswordResponse,
   badRequest,
   serverError,
   created,
-  validateRequiredFields,
-  requiredFieldResponse,
 } from '../helpers/index.js'
+import { z } from 'zod'
+
 
 export class CreateUserController {
   constructor(createUserUseCase) {
@@ -20,28 +16,17 @@ export class CreateUserController {
   async execute(httpRequest) {
     try {
       const params = httpRequest.body
-      const requiredFields = ['first_name', 'last_name', 'email', 'password']
 
- const { ok: requiredFieldsAreValid, field } = validateRequiredFields(params, requiredFields)
-
-      if (!requiredFieldsAreValid) {
-        return requiredFieldResponse(field)
-      }
-
-      const passwordLengthIsNotValid = checkIfPasswordIsValid(params.password)
-      if (passwordLengthIsNotValid) {
-        return invalidPasswordResponse()
-      }
-
-      const emailIsNotValid = checkIfEmailIsValid(params.email)
-      if (emailIsNotValid) {
-        return invalidEmailResponse()
-      }
+      await createUserSchema.parseAsync(params)
 
       const createdUser = await this.createUserUseCase.execute(params)
 
       return created(createdUser)
     } catch (error) {
+
+      if(error instanceof z.ZodError) {
+        return badRequest({ message: error.issues[0].message })
+      }
       if (error instanceof EmailAlreadyInUseError) {
         return badRequest({ message: error.message })
       }
