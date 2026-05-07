@@ -1,13 +1,10 @@
 import {
-  badRequest,
-  checkIfIdIsValid,
-  invalidIdResponse,
   serverError,
-  validateRequiredFields,
-  requiredFieldResponse,
-  created 
+  created,
+  badRequest
 } from '../helpers/index.js'
-import { checkIfAmountIsValid, checkIfTypeIsValid ,invalidAmountResponse, invalidTypeResponse} from '../helpers/transaction.js'
+import { createTransactionSchema } from '../../schemas/transaction.js'
+import { ZodError } from 'zod'
 
 export class CreateTransactionController {
   constructor(createTransactionUseCase) {
@@ -18,51 +15,21 @@ export class CreateTransactionController {
     try {
       const params = httpRequest.body
 
-      const requiredFields = [
-        'user_id',
-        'name',
-        'date',
-        'amount',
-        'type'
-      ]
-
-      const { ok: requiredFieldsAreValid, field } = validateRequiredFields(params, requiredFields)
-
-      if (!requiredFieldsAreValid) {
-        return requiredFieldResponse(field)
-      }
-
-      const userIdIsValid = checkIfIdIsValid(params.user_id)
-
-      if (!userIdIsValid) {
-        return invalidIdResponse()
-      }
-
-
-      const amoutIsValid = checkIfAmountIsValid(params.amount)
-
-      if (!amoutIsValid) {
-        return invalidAmountResponse()
-      }
-
-      const type = params.type.trim().toUpperCase() 
-
-      const typeIsValid = checkIfTypeIsValid(type)
-
-      if (!typeIsValid) {
-        return invalidTypeResponse()
-      }
-
+      await createTransactionSchema.parseAsync(params)
+      
       const transaction = await this.createTransactionUseCase.execute({
         ...params,
-        type
+        type: params.type.toUpperCase()
       })
 
       return created(transaction)
 
     } catch (error) {
+      if (error.name === 'ZodError') {
+        return badRequest(error.issues[0].message)
+      }
       console.error(error)
-      return serverError()
+      return serverError(error.message)
     }
   }
 }
