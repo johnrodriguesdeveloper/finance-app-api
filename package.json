@@ -15,6 +15,7 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.3.0",
+    "@faker-js/faker": "^10.4.0",
     "eslint": "^9.3.0",
     "globals": "^15.3.0",
     "jest": "^30.4.2",
