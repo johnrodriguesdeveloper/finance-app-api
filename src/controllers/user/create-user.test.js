@@ -2,6 +2,7 @@ import { jest } from '@jest/globals';
 import { CreateUserController } from './create-user.js';
 import { faker } from '@faker-js/faker';
 import { EmailAlreadyInUseError } from '../../errors/user.js';
+import { expect, describe, it } from '@jest/globals';
 
 
 describe('Create User Controller', () => {

@@ -1,6 +1,7 @@
 import { GetUserBalanceController } from './get-user-balance.js'
 import { faker } from '@faker-js/faker'
 import { jest } from '@jest/globals'
+import { expect, describe, it } from '@jest/globals'    
 
 describe('GetUserBalanceController', () => {
   class GetUserBalanceUserCaseStub {

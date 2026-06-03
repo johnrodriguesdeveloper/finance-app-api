@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { GetUserByIdController } from './get-user-by-id.js'
 import { jest } from '@jest/globals'
+import { expect, describe, it } from '@jest/globals'
 
 describe('GetUserByIdController', () => {
     class GetUserByIdUserCaseStub {

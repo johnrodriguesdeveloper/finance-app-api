@@ -1,7 +1,8 @@
 import { jest } from '@jest/globals'
 import { UpdateUserController } from './update-user.js';
 import { faker } from '@faker-js/faker';
-import { EmailAlreadyInUseError } from '../../errors/user';
+import { EmailAlreadyInUseError } from '../../errors/user'; 
+import { expect, describe, it } from '@jest/globals'
 
 describe('UpdateUserController', () => {
 

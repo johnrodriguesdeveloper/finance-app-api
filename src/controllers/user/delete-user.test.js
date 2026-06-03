@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals'
 import { DeleteUserController } from './delete-user.js'
 import { faker } from '@faker-js/faker'
+import { expect, describe, it } from '@jest/globals'
 
 describe('DeleteUserController', () => {
     class DeleteUserUseCaseStub {
