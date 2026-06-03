@@ -27,4 +27,85 @@ describe('CreateTransactionController', () => {
     expect(response.statusCode).toBe(201)
   })
 
+
+  it('should return 400 when user_id is not provided', async () => {
+    const { sut } = makeSut()
+    
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        user_id: undefined
+      }
+    })
+    expect(response.statusCode).toBe(400)
+  })
+  it('should return 400 when name is not provided', async () => {
+    const { sut } = makeSut()
+    
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        name: undefined
+      }
+    })
+    expect(response.statusCode).toBe(400)
+  })
+  it('should return 400 when date is not provided', async () => {
+    const { sut } = makeSut()
+    
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        date: undefined
+      }
+    })
+    expect(response.statusCode).toBe(400)
+  })
+  it('should return 400 when type is not provided', async () => {
+    const { sut } = makeSut()
+    
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        type: undefined
+      }
+    })
+    expect(response.statusCode).toBe(400)
+  })
+  it('should return 400 when amount is not provided', async () => {
+    const { sut } = makeSut()
+    
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        amount: undefined
+      }
+    })
+    expect(response.statusCode).toBe(400)
+  })
+
+  it('should return 400 when date is invalid', async () => {
+    const { sut } = makeSut()
+    
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        date: 'invalid-date'
+      }
+    })
+    expect(response.statusCode).toBe(400)
+  })
+
+  it('should return 400 when type is not EXPENSE, EARNING or INVESTMENT', async () => {
+    const { sut } = makeSut()
+    
+    const response = await sut.execute({
+      body: {
+        ...baseHttpRequest.body,
+        type: 'invalid-type'
+      }
+    })
+    expect(response.statusCode).toBe(400)
+  })
+
 })
