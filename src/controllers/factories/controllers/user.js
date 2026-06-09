@@ -7,6 +7,7 @@ import { PostgresCreateUserRepository } from "../../../repositories/postgres/use
 import { CreateUserUseCase } from "../../../use-cases/user/create-user.js"
 import { CreateUserController } from "../../../controllers/user/create-user.js"
 import { BcryptAdapter } from "../../../adapters/bcrypt.js"
+import { IdGeneratorAdapter } from "../../../adapters/id-generator.js"
 
 export const makeGetUserBalanceController = () => {
   const postgresGetUserBalanceRepository = new PostgresGetUserBalanceRepository()
@@ -27,7 +28,8 @@ export const makeCreateUserController = () => {
   const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
   const createUserRepository = new PostgresCreateUserRepository()
   const bcryptAdapter = new BcryptAdapter()
-  const createUserUseCase = new CreateUserUseCase(getUserByEmailRepository, createUserRepository, bcryptAdapter)
+  const idGeneratorAdapter = new IdGeneratorAdapter()
+  const createUserUseCase = new CreateUserUseCase(getUserByEmailRepository, createUserRepository, bcryptAdapter, idGeneratorAdapter)
   const createUserController = new CreateUserController(createUserUseCase)
   
   return createUserController
