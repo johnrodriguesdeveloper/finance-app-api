@@ -1,9 +1,8 @@
-import bcrypt from 'bcrypt'
-
 export class UpdateUserUseCase {
-  constructor(getUserByEmailRepository, updateUserRepository) {
+  constructor(getUserByEmailRepository, updateUserRepository, bcryptAdapter) {
     this.getUserByEmailRepository = getUserByEmailRepository
     this.updateUserRepository = updateUserRepository
+    this.bcryptAdapter = bcryptAdapter
   }
 
 
@@ -21,7 +20,7 @@ export class UpdateUserUseCase {
     const user = { ...updateUserParams }
 
     if (updateUserParams.password) {
-      const hashedPassword = await bcrypt.hash(updateUserParams.password, 10)
+      const hashedPassword = await this.bcryptAdapter.hash(updateUserParams.password)
       user.password = hashedPassword
     }
 
