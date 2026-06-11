@@ -1,11 +1,10 @@
 import { EmailAlreadyInUseError } from '../../errors/user.js'
-import { BcryptAdapter } from '../../adapters/bcrypt.js'
 
 export class CreateUserUseCase {
   constructor(getUserByEmailRepository, createUserRepository, bcryptAdapter, idGeneratorAdapter) {
     this.getUserByEmailRepository = getUserByEmailRepository
     this.createUserRepository = createUserRepository
-    this.bcryptAdapter = bcryptAdapter instanceof BcryptAdapter ? bcryptAdapter : new BcryptAdapter()
+    this.bcryptAdapter = bcryptAdapter
     this.idGeneratorAdapter = idGeneratorAdapter
   }
 
