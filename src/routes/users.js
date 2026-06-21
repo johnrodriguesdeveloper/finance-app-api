@@ -3,17 +3,16 @@ import {
   GetUserByIdController,
   DeleteUserController,
   UpdateUserController
-} from './src/controllers/index.js'
-import { PostgresGetUserByIdRepository } from './src/repositories/postgres/user/get-user-by-id.js'
-import { PostgresGetUserByEmailRepository } from './src/repositories/postgres/user/get-user-by-email.js'
-import { UpdateUserRepository } from './src/repositories/postgres/user/update-user.js'
-import { DeleteUserUseCase } from './src/use-cases/user/delete-user.js'
-import { PostgresDeleteUser } from './src/repositories/postgres/user/delete-user.js'
-import { GetUserByIdUseCase } from './src/use-cases/user/get-user-by-id.js'
-import { UpdateUserUseCase } from './src/use-cases/user/update-user.js'
-import { makeCreateUserController } from './src/controllers/factories/controllers/user.js'
+} from '../controllers/index.js'
+import { PostgresGetUserByIdRepository } from '../repositories/postgres/user/get-user-by-id.js'
+import { PostgresGetUserByEmailRepository } from '../repositories/postgres/user/get-user-by-email.js'
+import { UpdateUserRepository } from '../repositories/postgres/user/update-user.js'
+import { DeleteUserUseCase } from '../use-cases/user/delete-user.js'
+import { PostgresDeleteUser } from '../repositories/postgres/user/delete-user.js'
+import { GetUserByIdUseCase } from '../use-cases/user/get-user-by-id.js'
+import { UpdateUserUseCase } from '../use-cases/user/update-user.js'
+import { makeCreateUserController } from '../controllers/factories/controllers/user.js'
 import { makeGetUserBalanceController } from "../controllers/factories/controllers/user.js"
-
 
 export const usersRouter = Router()
 
