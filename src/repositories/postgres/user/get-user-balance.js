@@ -1,5 +1,4 @@
-import { prisma } from "../../../../prisma/prisma.js";
-import { Prisma } from "@prisma/client";
+import { prisma, Prisma } from "../../../../prisma/prisma.js";
 
 export class PostgresGetUserBalanceRepository {
     async execute(userId) {

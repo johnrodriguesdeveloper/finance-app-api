@@ -1,4 +1,4 @@
-import { prisma } from '../../../db/prisma/client.js'
+import { prisma } from "../../../../prisma/prisma.js";
 
 export class PostgresUpdateTransactionRepository {
     async execute(transactionId, updateTransactionParams) {

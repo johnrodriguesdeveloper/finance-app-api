@@ -1,8 +1,8 @@
 import { Router } from "express"
-import { makeCreateTransactionController } from './src/controllers/factories/controllers/transaction.js'
-import { makeGetTransactionByUserIdController } from './src/controllers/factories/controllers/transaction.js'
-import { makeUpdateTransactionController } from './src/controllers/factories/controllers/transaction.js'
-import { makeDeleteTransactionController } from './src/controllers/factories/controllers/transaction.js'
+import { makeCreateTransactionController } from "../controllers/factories/controllers/transaction.js"
+import { makeGetTransactionByUserIdController } from "../controllers/factories/controllers/transaction.js"
+import { makeUpdateTransactionController } from "../controllers/factories/controllers/transaction.js"
+import { makeDeleteTransactionController } from "../controllers/factories/controllers/transaction.js"
 
 export const transactionsRouter = Router()
 
