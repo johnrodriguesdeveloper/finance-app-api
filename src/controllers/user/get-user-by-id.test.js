@@ -5,7 +5,7 @@ import { expect, describe, it } from '@jest/globals'
 
 describe('GetUserByIdController', () => {
     class GetUserByIdUserCaseStub {
-        async execute(userId) {
+        async execute() {
             return {
               id: faker.string.uuid(),
               first_name: faker.person.firstName(),

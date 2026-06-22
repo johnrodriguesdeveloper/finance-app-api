@@ -4,7 +4,6 @@ import {
   badRequest
 } from '../helpers/index.js'
 import { createTransactionSchema } from '../../schemas/transaction.js'
-import { ZodError } from 'zod'
 
 export class CreateTransactionController {
   constructor(createTransactionUseCase) {

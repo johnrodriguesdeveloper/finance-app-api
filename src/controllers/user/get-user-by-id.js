@@ -7,7 +7,7 @@ export class GetUserByIdController {
     this.getUserByIdUseCase = getUserByIdUseCase
   }
 
-   async execute(request, reply) {
+   async execute(request) {
     try {
       const isIdValid = checkIfIdIsValid(request.params.userId)
       if (!isIdValid) {
